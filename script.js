@@ -1,228 +1,125 @@
-// ===== SLIDE NAVIGATION =====
+document.addEventListener('DOMContentLoaded', function() {
+
+const SECTIONS = [
+  {id:'corp', name:'Corp. Info', color:'#6366f1', icon:'📋'},
+  {id:'pre', name:'Pre-Screening', color:'#8b5cf6', icon:'🔍'},
+  {id:'cat1', name:'Carbon & Climate', color:'#16a34a', icon:'🌿'},
+  {id:'cat2', name:'Energy & Resource', color:'#f59e0b', icon:'⚡'},
+  {id:'cat3', name:'Env. Stewardship', color:'#0ea5e9', icon:'🌍'},
+  {id:'cat4', name:'Social & Workforce', color:'#a855f7', icon:'👥'},
+  {id:'cat5', name:'Governance', color:'#64748b', icon:'🏛️'}
+];
+
 let currentSlide = 0;
-const totalSlides = 7;
 
-function goToSlide(n) {
-    if (n < 0 || n >= totalSlides) return;
-    currentSlide = n;
-    const track = document.getElementById('slidesTrack');
-    track.style.transform = `translateX(-${n * (100 / totalSlides)}%)`;
+// Build pills
+const pillsContainer = document.getElementById('pillsContainer');
+SECTIONS.forEach((s, i) => {
+  const pill = document.createElement('div');
+  pill.className = 'pill' + (i === 0 ? ' active' : '');
+  pill.dataset.slide = i;
+  pill.innerHTML = `<span class="pill-dot" style="background:${s.color}"></span>${s.name}<span class="pill-count" id="pill-count-${i}">0/0</span>`;
+  pill.style.cssText = i === 0 ? `background:${s.color};color:#fff;border-color:transparent` : '';
+  pill.addEventListener('click', () => goToSlide(i));
+  pillsContainer.appendChild(pill);
+});
 
-    // Update pills
-    document.querySelectorAll('.pill').forEach((p, i) => {
-        p.classList.toggle('active', i === n);
+// Year dropdown
+const yearSelect = document.getElementById('yearSelect');
+if (yearSelect) {
+  for (let y = 2025; y >= 1950; y--) {
+    const opt = document.createElement('option');
+    opt.value = y; opt.textContent = y;
+    yearSelect.appendChild(opt);
+  }
+}
+
+// Slide navigation
+window.goToSlide = function(index) {
+  currentSlide = index;
+  document.getElementById('slidesTrack').style.transform = `translateX(-${index * 100}%)`;
+  document.querySelectorAll('.pill').forEach((p, i) => {
+    if (i === index) {
+      p.className = 'pill active';
+      p.style.background = SECTIONS[i].color;
+      p.style.color = '#fff';
+      p.style.borderColor = 'transparent';
+    } else {
+      p.className = 'pill';
+      p.style.background = '#fff';
+      p.style.color = '#64748b';
+      p.style.borderColor = '#e2e8f0';
+    }
+  });
+  applyGating();
+  updateProgress();
+};
+
+// Pill button clicks (Yes/No)
+document.querySelectorAll('.pill-buttons').forEach(group => {
+  group.querySelectorAll('.pill-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      group.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('selected'));
+      this.classList.add('selected');
+      this.closest('.question-card').classList.add('answered');
+      handleConditionals();
+      applyGating();
+      applyPrepopulation();
+      updateProgress();
     });
+  });
+});
 
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
+// Select/input changes
+document.querySelectorAll('.q-select, .q-input').forEach(el => {
+  el.addEventListener('change', function() {
+    if (this.value) this.closest('.question-card').classList.add('answered');
+    else this.closest('.question-card').classList.remove('answered');
+    applyPrepopulation();
     updateProgress();
-}
-
-// Pill clicks
-document.querySelectorAll('.pill').forEach(pill => {
-    pill.addEventListener('click', () => {
-        goToSlide(parseInt(pill.dataset.section));
-    });
-});
-
-// ===== FAB NAV =====
-function toggleNav() {
-    document.getElementById('fabPanel').classList.toggle('open');
-}
-
-// Close fab when clicking outside
-document.addEventListener('click', (e) => {
-    const fab = document.getElementById('fabBtn');
-    const panel = document.getElementById('fabPanel');
-    if (!fab.contains(e.target) && !panel.contains(e.target)) {
-        panel.classList.remove('open');
-    }
-});
-
-// ===== CORPORATE INFO TRACKING =====
-document.querySelectorAll('.form-input, .form-select').forEach(input => {
-    const handler = () => {
-        const card = input.closest('.form-card');
-        if (card) {
-            card.classList.toggle('answered', input.value.trim() !== '');
-        }
-        updateProgress();
-    };
-    input.addEventListener('input', handler);
-    input.addEventListener('change', handler);
-});
-
-// ===== PRE-SCREENING: PILL OPTIONS =====
-document.querySelectorAll('.pill-option').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const field = btn.dataset.psField;
-        // Deselect siblings
-        btn.parentElement.querySelectorAll('.pill-option').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-
-        // Mark card as answered
-        const card = btn.closest('.form-card');
-        if (card) card.classList.add('answered');
-
-        // Handle conditional fields
-        handleConditional(field, btn.dataset.value);
-
-        updateProgress();
-    });
-});
-
-// ===== PRE-SCREENING: CHECKBOXES =====
-document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(cb => {
-    cb.addEventListener('change', () => {
-        const card = cb.closest('.form-card');
-        if (card) {
-            const anyChecked = card.querySelectorAll('input[type="checkbox"]:checked').length > 0;
-            card.classList.toggle('answered', anyChecked);
-        }
-        updateProgress();
-    });
-});
-
-// ===== CONDITIONAL LOGIC =====
-function handleConditional(field, value) {
-    document.querySelectorAll(`.form-card.conditional[data-depends="${field}"]`).forEach(card => {
-        const showValue = card.dataset.dependsValue;
-        if (value === showValue) {
-            card.style.display = '';
-        } else {
-            card.style.display = 'none';
-            card.classList.remove('answered');
-            // Reset inputs inside
-            card.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-            card.querySelectorAll('select').forEach(s => s.value = '');
-            card.querySelectorAll('.pill-option').forEach(b => b.classList.remove('selected'));
-        }
-    });
+  });
+  el.addEventListener('input', function() {
+    if (this.value) this.closest('.question-card').classList.add('answered');
+    else this.closest('.question-card').classList.remove('answered');
     updateProgress();
-}
-
-// ===== INDICATOR ACTIONS =====
-document.querySelectorAll('.indicator-row').forEach(row => {
-    const btnComplete = row.querySelector('.btn-complete');
-    const btnSkip = row.querySelector('.btn-skip');
-
-    if (btnComplete) {
-        btnComplete.addEventListener('click', () => {
-            if (row.classList.contains('completed')) {
-                row.classList.remove('completed');
-                btnComplete.classList.remove('active');
-            } else {
-                row.classList.remove('skipped');
-                row.classList.add('completed');
-                btnComplete.classList.add('active');
-                btnSkip.classList.remove('active');
-            }
-            updateProgress();
-        });
-    }
-
-    if (btnSkip) {
-        btnSkip.addEventListener('click', () => {
-            if (row.classList.contains('skipped')) {
-                row.classList.remove('skipped');
-                btnSkip.classList.remove('active');
-            } else {
-                row.classList.remove('completed');
-                row.classList.add('skipped');
-                btnSkip.classList.add('active');
-                btnComplete.classList.remove('active');
-            }
-            updateProgress();
-        });
-    }
+  });
 });
 
-// ===== PROGRESS TRACKING =====
-function updateProgress() {
-    // Count corporate info fields filled
-    let corpFilled = 0;
-    const corpTotal = 5;
-    document.querySelectorAll('[data-slide="0"] .form-card').forEach(card => {
-        if (card.classList.contains('answered')) corpFilled++;
-        else {
-            const input = card.querySelector('.form-input');
-            const select = card.querySelector('.form-select');
-            if ((input && input.value.trim()) || (select && select.value)) {
-                corpFilled++;
-            }
-        }
-    });
+// Checkbox changes
+document.querySelectorAll('.checkbox-group input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', function() {
+    const group = this.closest('.checkbox-group');
+    const card = this.closest('.question-card');
+    const anyChecked = group.querySelectorAll('input:checked').length > 0;
+    if (anyChecked) card.classList.add('answered');
+    else card.classList.remove('answered');
+    handleConditionals();
+    applyGating();
+    applyPrepopulation();
+    updateProgress();
+  });
+});
 
-    // Count pre-screening answered (only visible ones)
-    let psFilled = 0;
-    let psTotal = 0;
-    document.querySelectorAll('[data-slide="1"] .form-card[data-field="ps"]').forEach(card => {
-        if (card.style.display === 'none') return;
-        psTotal++;
-        if (card.classList.contains('answered')) psFilled++;
-    });
+// Conditional show/hide
+function handleConditionals() {
+  // Facilities -> facility types
+  const facVal = getSelectedPill('preFacilities');
+  const facTypes = document.getElementById('preFacilityTypes');
+  if (facTypes) facTypes.style.display = facVal === 'Yes' ? 'flex' : 'none';
 
-    // Count indicator rows
-    let indCompleted = 0;
-    let indSkipped = 0;
-    let indTotal = 0;
-    document.querySelectorAll('.indicator-row').forEach(row => {
-        indTotal++;
-        if (row.classList.contains('completed')) indCompleted++;
-        else if (row.classList.contains('skipped')) indSkipped++;
-    });
-
-    const totalItems = corpTotal + psTotal + indTotal;
-    const totalDone = corpFilled + psFilled + indCompleted;
-    const totalSkippedCount = indSkipped;
-
-    // Update status card
-    document.getElementById('statusDone').textContent = totalDone;
-    document.getElementById('statusTotal').textContent = totalItems;
-
-    const pctDone = totalItems > 0 ? (totalDone / totalItems) * 100 : 0;
-    const pctSkipped = totalItems > 0 ? (totalSkippedCount / totalItems) * 100 : 0;
-
-    document.getElementById('barCompleted').style.width = pctDone + '%';
-    document.getElementById('barSkipped').style.width = pctSkipped + '%';
-
-    // Update per-section pill counts and metrics
-
-    // Slide 0: Corp Info
-    updatePillAndMetric(0, corpFilled, corpTotal);
-
-    // Slide 1: Pre-Screening
-    updatePillAndMetric(1, psFilled, psTotal);
-
-    // Slides 2-6: Categories
-    const slideIndicatorCounts = [
-        { slide: 2, total: 5 },
-        { slide: 3, total: 7 },
-        { slide: 4, total: 2 },
-        { slide: 5, total: 10 },
-        { slide: 6, total: 9 }
-    ];
-
-    slideIndicatorCounts.forEach(({ slide, total }) => {
-        let completed = 0;
-        let skipped = 0;
-        document.querySelectorAll(`[data-slide="${slide}"] .indicator-row`).forEach(row => {
-            if (row.classList.contains('completed')) completed++;
-            else if (row.classList.contains('skipped')) skipped++;
-        });
-        const active = completed;
-        updatePillAndMetric(slide, active, total);
-    });
+  // Vehicles -> fuel type, count
+  const vehVal = getSelectedPill('preVehicles');
+  const vehFuel = document.getElementById('preVehicleFuel');
+  const vehCount = document.getElementById('preVehicleCount');
+  if (vehFuel) vehFuel.style.display = vehVal === 'Yes' ? 'flex' : 'none';
+  if (vehCount) vehCount.style.display = vehVal === 'Yes' ? 'flex' : 'none';
 }
 
-function updatePillAndMetric(slideIndex, done, total) {
-    const pillCount = document.getElementById(`pillCount${slideIndex}`);
-    if (pillCount) pillCount.textContent = `${done}/${total}`;
-
-    const metricNum = document.getElementById(`metricNum${slideIndex}`);
-    if (metricNum) metricNum.textContent = done;
+function getSelectedPill(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return null;
+  const selected = container.querySelector('.pill-btn.selected');
+  return selected ? selected.dataset.value : null;
 }
 
-// Initialize
-updateProgress();
+function getCheckedValues
