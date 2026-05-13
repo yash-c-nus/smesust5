@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SustainSME — Sustainability Assessment</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+    <div class="header-inner">
+        <div class="logo">
+            <div class="logo-icon">S</div>
+            <span class="logo-text">SustainSME</span>
+        </div>
+        <div class="status-card">
+            <div class="status-label">STATUS</div>
+            <div class="status-numbers">
+                <span class="status-done" id="statusDone">0</span>
+                <span class="status-total">/<span id="statusTotal">48</span></span>
+            </div>
+            <div class="status-bar">
+                <div class="status-bar-completed" id="barCompleted"></div>
+                <div class="status-bar-skipped" id="barSkipped"></div>
+                <div class="status-bar-remaining" id="barRemaining"></div>
+            </div>
+            <div class="status-legend">
+                <span class="legend-item"><span class="legend-dot completed"></span>Completed</span>
+                <span class="legend-item"><span class="legend-dot skipped"></span>Skipped</span>
+                <span class="legend-item"><span class="legend-dot not-started"></span>Not started</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Section Pills -->
+<nav class="pills-nav">
+    <div class="pills-inner">
+        <button class="pill active" data-section="0">
+            <span class="pill-dot" style="background:#6366f1"></span>
+            Corp. Info
+            <span class="pill-count" id="pillCount0">0/5</span>
+        </button>
+        <button class="pill" data-section="1">
+            <span class="pill-dot" style="background:#8b5cf6"></span>
+            Pre-Screening
+            <span class="pill-count" id="pillCount1">0/15</span>
+        </button>
+        <button class="pill" data-section="2">
+            <span class="pill-dot" style="background:#16a34a"></span>
+            Carbon &amp; Climate
+            <span class="pill-count" id="pillCount2">0/5</span>
+        </button>
+        <button class="pill" data-section="3">
+            <span class="pill-dot" style="background:#ea580c"></span>
+            Energy &amp; Resource
+            <span class="pill-count" id="pillCount3">0/7</span>
+        </button>
+        <button class="pill" data-section="4">
+            <span class="pill-dot" style="background:#0ea5e9"></span>
+            Env. Stewardship
+            <span class="pill-count" id="pillCount4">0/2</span>
+        </button>
+        <button class="pill" data-section="5">
+            <span class="pill-dot" style="background:#dc2626"></span>
+            Social &amp; Workforce
+            <span class="pill-count" id="pillCount5">0/10</span>
+        </button>
+        <button class="pill" data-section="6">
+            <span class="pill-dot" style="background:#475569"></span>
+            Governance
+            <span class="pill-count" id="pillCount6">0/9</span>
+        </button>
+    </div>
+</nav>
+
+<!-- Slides Container -->
+<main class="slides-viewport">
+    <div class="slides-track" id="slidesTrack">
+
+        <!-- SLIDE 0: Corporate Information -->
+        <section class="slide" data-slide="0">
+            <div class="slide-content">
+                <div class="section-header">
+                    <div class="section-badge" style="background:#6366f1">1</div>
+                    <div>
+                        <h2 class="section-title">Corporate Information</h2>
+                        <p class="section-desc">Basic details about your business entity</p>
+                    </div>
+                    <div class="section-metric">
+                        <span class="metric-num" id="metricNum0">0</span>
+                        <span class="metric-den">/5</span>
+                        <span class="metric-label">COMPLETED</span>
+                    </div>
+                </div>
+
+                <div class="form-card" data-field="corp">
+                    <label class="form-label">Full registered name of your business entity</label>
+                    <input type="text" class="form-input" placeholder="e.g. Acme Pte Ltd" data-corp-field="name">
+                </div>
+                <div class="form-card" data-field="corp">
+                    <label class="form-label">Unique Entity Number (UEN)</label>
+                    <input type="text" class="form-input" placeholder="e.g. 201912345A" data-corp-field="uen">
+                </div>
+                <div class="form-card" data-field="corp">
+                    <label class="form-label">Year of establishment</label>
+                    <select class="form-select" data-corp-field="year">
+                        <option value="">Select year</option>
+                        <script>
+                            for(let y=2025;y>=1950;y--) document.write('<option value="'+y+'">'+y+'</option>');
+                        </script>
+                    </select>
+                </div>
+                <div class="form-card" data-field="corp">
+                    <label class="form-label">Select your reporting currency</label>
+                    <select class="form-select" data-corp-field="currency">
+                        <option value="">Select currency</option>
+                        <option value="SGD">SGD — Singapore Dollar</option>
+                        <option value="USD">USD — US Dollar</option>
+                        <option value="EUR">EUR — Euro</option>
+                        <option value="GBP">GBP — British Pound</option>
+                        <option value="MYR">MYR — Malaysian Ringgit</option>
+                        <option value="IDR">IDR — Indonesian Rupiah</option>
+                        <option value="THB">THB — Thai Baht</option>
+                        <option value="PHP">PHP — Philippine Peso</option>
+                        <option value="VND">VND — Vietnamese Dong</option>
+                        <option value="CNY">CNY — Chinese Yuan</option>
+                        <option value="JPY">JPY — Japanese Yen</option>
+                        <option value="KRW">KRW — Korean Won</option>
+                        <option value="AUD">AUD — Australian Dollar</option>
+                        <option value="INR">INR — Indian Rupee</option>
+                    </select>
+                </div>
+                <div class="form-card" data-field="corp">
+                    <label class="form-label">Primary industry sector</label>
+                    <select class="form-select" data-corp-field="industry">
+                        <option value="">Select industry</option>
+                        <option value="manufacturing">Manufacturing</option>
+                        <option value="retail">Retail</option>
+                        <option value="fnb">Food & Beverage</option>
+                        <option value="logistics">Logistics</option>
+                        <option value="professional">Professional Services</option>
+                        <option value="construction">Construction</option>
+                        <option value="agriculture">Agriculture</option>
+                        <option value="technology">Technology / IT</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="education">Education</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="slide-nav">
+                    <div></div>
+                    <button class="btn-next" onclick="goToSlide(1)">Continue to Pre-Screening →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 1: Pre-Screening -->
+        <section class="slide" data-slide="1">
+            <div class="slide-content">
+                <div class="section-header">
+                    <div class="section-badge" style="background:#8b5cf6">2</div>
+                    <div>
+                        <h2 class="section-title">Pre-Screening</h2>
+                        <p class="section-desc">Quick questions to tailor the assessment to your company</p>
+                    </div>
+                    <div class="section-metric">
+                        <span class="metric-num" id="metricNum1">0</span>
+                        <span class="metric-den">/15</span>
+                        <span class="metric-label">COMPLETED</span>
+                    </div>
+                </div>
+
+                <!-- PS1 -->
+                <div class="form-card" data-field="ps" data-ps-id="ps1">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.1</span>
+                        <label class="form-label">How many employees does your company currently have?</label>
+                    </div>
+                    <select class="form-select" data-ps-field="ps1">
+                        <option value="">Select range</option>
+                        <option value="1-10">1–10</option>
+                        <option value="11-50">11–50</option>
+                        <option value="51-200">51–200</option>
+                        <option value="201-500">201–500</option>
+                        <option value="500+">500+</option>
+                    </select>
+                </div>
+
+                <!-- PS2 -->
+                <div class="form-card" data-field="ps" data-ps-id="ps2">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.2</span>
+                        <label class="form-label">Does your company own, lease, or operate any physical facilities?</label>
+                    </div>
+                    <div class="pill-options">
+                        <button class="pill-option" data-ps-field="ps2" data-value="yes">Yes</button>
+                        <button class="pill-option" data-ps-field="ps2" data-value="no">No</button>
+                    </div>
+                </div>
+
+                <!-- PS2a (conditional) -->
+                <div class="form-card conditional" data-field="ps" data-ps-id="ps2a" data-depends="ps2" data-depends-value="yes" style="display:none">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.2a</span>
+                        <label class="form-label">What type(s) of facilities does your company operate?</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps2a" value="office"> Office</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps2a" value="factory"> Factory or production plant</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps2a" value="warehouse"> Warehouse or storage</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps2a" value="retail"> Retail or F&B outlet</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps2a" value="farm"> Farm or agricultural land</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps2a" value="other"> Other</label>
+                    </div>
+                </div>
+
+                <!-- PS3 -->
+                <div class="form-card" data-field="ps" data-ps-id="ps3">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.3</span>
+                        <label class="form-label">What are the main energy sources your company uses?</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps3" value="grid"> Grid electricity</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps3" value="diesel"> Diesel</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps3" value="petrol"> Petrol</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps3" value="lng"> Natural gas (LNG/PNG)</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps3" value="lpg"> LPG</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps3" value="solar"> Solar</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps3" value="none"> None of the above</label>
+                    </div>
+                </div>
+
+                <!-- PS4 -->
+                <div class="form-card" data-field="ps" data-ps-id="ps4">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.4</span>
+                        <label class="form-label">Does your company own, lease, or rent any vehicles for business use (excluding ride-hail like Grab/Gojek)?</label>
+                    </div>
+                    <div class="pill-options">
+                        <button class="pill-option" data-ps-field="ps4" data-value="yes">Yes</button>
+                        <button class="pill-option" data-ps-field="ps4" data-value="no">No</button>
+                    </div>
+                </div>
+
+                <!-- PS4a (conditional) -->
+                <div class="form-card conditional" data-field="ps" data-ps-id="ps4a" data-depends="ps4" data-depends-value="yes" style="display:none">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.4a</span>
+                        <label class="form-label">What fuel type(s) do your vehicles use?</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps4a" value="petrol"> Petrol</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps4a" value="diesel"> Diesel</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps4a" value="electric"> Electric</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps4a" value="hybrid"> Hybrid</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps4a" value="cng"> CNG</label>
+                    </div>
+                </div>
+
+                <!-- PS4b (conditional) -->
+                <div class="form-card conditional" data-field="ps" data-ps-id="ps4b" data-depends="ps4" data-depends-value="yes" style="display:none">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.4b</span>
+                        <label class="form-label">Approximately how many vehicles?</label>
+                    </div>
+                    <select class="form-select" data-ps-field="ps4b">
+                        <option value="">Select range</option>
+                        <option value="1-5">1–5</option>
+                        <option value="6-20">6–20</option>
+                        <option value="21-50">21–50</option>
+                        <option value="50+">50+</option>
+                    </select>
+                </div>
+
+                <!-- PS5 -->
+                <div class="form-card" data-field="ps" data-ps-id="ps5">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.5</span>
+                        <label class="form-label">Does your company use any heavy machinery or industrial equipment that consumes fuel or energy?</label>
+                    </div>
+                    <div class="pill-options">
+                        <button class="pill-option" data-ps-field="ps5" data-value="yes">Yes</button>
+                        <button class="pill-option" data-ps-field="ps5" data-value="no">No</button>
+                    </div>
+                </div>
+
+                <!-- PS6 -->
+                <div class="form-card" data-field="ps" data-ps-id="ps6">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.6</span>
+                        <label class="form-label">Does your company's operations involve significant water usage?</label>
+                    </div>
+                    <div class="pill-options">
+                        <button class="pill-option" data-ps-field="ps6" data-value="yes">Yes</button>
+                        <button class="pill-option" data-ps-field="ps6" data-value="no">No</button>
+                    </div>
+                </div>
+
+                <!-- PS7 -->
+                <div class="form-card" data-field="ps" data-ps-id="ps7">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.7</span>
+                        <label class="form-label">Does your company generate physical waste?</label>
+                    </div>
+                    <div class="pill-options">
+                        <button class="pill-option" data-ps-field="ps7" data-value="yes">Yes</button>
+                        <button class="pill-option" data-ps-field="ps7" data-value="no">No</button>
+                    </div>
+                </div>
+
+                <!-- PS8 -->
+                <div class="form-card" data-field="ps" data-ps-id="ps8">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.8</span>
+                        <label class="form-label">Does your company currently track or measure its carbon emissions?</label>
+                    </div>
+                    <div class="pill-options three">
+                        <button class="pill-option" data-ps-field="ps8" data-value="yes-formal">Yes, formally</button>
+                        <button class="pill-option" data-ps-field="ps8" data-value="yes-informal">Yes, informally</button>
+                        <button class="pill-option" data-ps-field="ps8" data-value="no">No</button>
+                    </div>
+                </div>
+
+                <!-- PS9 -->
+                <div class="form-card" data-field="ps" data-ps-id="ps9">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.9</span>
+                        <label class="form-label">Does your company have any of the following? (Select all that apply)</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps9" value="strategy"> Sustainability strategy</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps9" value="report"> Sustainability report</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps9" value="officer"> Dedicated sustainability officer or team</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps9" value="esg"> ESG rating</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps9" value="none"> None</label>
+                    </div>
+                </div>
+
+                <!-- PS10 -->
+                <div class="form-card" data-field="ps" data-ps-id="ps10">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.10</span>
+                        <label class="form-label">Does your company have a formal Board of Directors?</label>
+                    </div>
+                    <div class="pill-options">
+                        <button class="pill-option" data-ps-field="ps10" data-value="yes">Yes</button>
+                        <button class="pill-option" data-ps-field="ps10" data-value="no">No</button>
+                    </div>
+                </div>
+
+                <!-- PS11 -->
+                <div class="form-card" data-field="ps" data-ps-id="ps11">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.11</span>
+                        <label class="form-label">Does your company have a formal health and safety policy?</label>
+                    </div>
+                    <div class="pill-options">
+                        <button class="pill-option" data-ps-field="ps11" data-value="yes">Yes</button>
+                        <button class="pill-option" data-ps-field="ps11" data-value="no">No</button>
+                    </div>
+                </div>
+
+                <!-- PS12 -->
+                <div class="form-card" data-field="ps" data-ps-id="ps12">
+                    <div class="form-card-header">
+                        <span class="q-tag">Q1.12</span>
+                        <label class="form-label">In the last 3 years, has your company experienced any of the following?</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps12" value="misconduct"> Misconduct or ethics incidents</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps12" value="cyber"> Cybersecurity breaches or data privacy incidents</label>
+                        <label class="checkbox-item"><input type="checkbox" data-ps-field="ps12" value="none"> None</label>
+                    </div>
+                </div>
+
+                <div class="slide-nav">
+                    <button class="btn-back" onclick="goToSlide(0)">← Back to Corp. Info</button>
+                    <button class="btn-next" onclick="goToSlide(2)">Continue to Carbon &amp; Climate →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 2: Carbon & Climate Performance -->
+        <section class="slide" data-slide="2">
+            <div class="slide-content">
+                <div class="section-header">
+                    <div class="section-badge" style="background:#16a34a">3</div>
+                    <div>
+                        <h2 class="section-title">Carbon & Climate Performance</h2>
+                        <p class="section-desc">Emissions tracking, targets, and reduction plans</p>
+                    </div>
+                    <div class="section-metric">
+                        <span class="metric-num" id="metricNum2">0</span>
+                        <span class="metric-den">/5</span>
+                        <span class="metric-label">COMPLETED</span>
+                    </div>
+                </div>
+
+                <div class="subsection-label">1.1 — Carbon Emissions Tracking</div>
+                <div class="indicator-row" data-indicator="cat2">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q2.1</span>
+                        <div><div class="indicator-title">Does your company track carbon emissions?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">1.2 — Emissions Tracking Maturity</div>
+                <div class="indicator-row" data-indicator="cat2">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q2.3</span>
+                        <div><div class="indicator-title">What are the challenges in tracking carbon emissions?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">1.3 — Net-Zero Target</div>
+                <div class="indicator-row" data-indicator="cat2">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q4.6</span>
+                        <div><div class="indicator-title">Does your company have a net-zero carbon emissions target?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">1.4 — Emissions Reduction Plan</div>
+                <div class="indicator-row" data-indicator="cat2">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q4.7</span>
+                        <div><div class="indicator-title">Does your company have a carbon emissions reduction plan for Scope 1 and/or Scope 2 emissions?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">1.5 — Intensity-Based Reduction Target</div>
+                <div class="indicator-row" data-indicator="cat2">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q4.9</span>
+                        <div><div class="indicator-title">Does your company have an intensity-based emissions reduction target?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="slide-nav">
+                    <button class="btn-back" onclick="goToSlide(1)">← Back to Pre-Screening</button>
+                    <button class="btn-next" onclick="goToSlide(3)">Continue to Energy &amp; Resource →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: Energy & Resource Use -->
+        <section class="slide" data-slide="3">
+            <div class="slide-content">
+                <div class="section-header">
+                    <div class="section-badge" style="background:#ea580c">4</div>
+                    <div>
+                        <h2 class="section-title">Energy & Resource Use</h2>
+                        <p class="section-desc">Energy consumption, resource efficiency, waste, and renewables</p>
+                    </div>
+                    <div class="section-metric">
+                        <span class="metric-num" id="metricNum3">0</span>
+                        <span class="metric-den">/7</span>
+                        <span class="metric-label">COMPLETED</span>
+                    </div>
+                </div>
+
+                <div class="subsection-label">2.1 — Physical Footprint</div>
+                <div class="indicator-row" data-indicator="cat3">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q2.4</span>
+                        <div><div class="indicator-title">Does your company own, lease, or operate on physical land or facilities (e.g., factories, offices, warehouses, farms)?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">2.2 — Machinery & Equipment Energy Use</div>
+                <div class="indicator-row" data-indicator="cat3">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q2.7</span>
+                        <div><div class="indicator-title">What were the amounts of energy used for machinery or equipment by energy source in the last 3 years?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">2.3 — Vehicle Fleet & Energy</div>
+                <div class="indicator-row" data-indicator="cat3">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q2.8–Q2.9</span>
+                        <div><div class="indicator-title">Company vehicle fleet details and energy consumption for vehicles in the last 3 years</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">2.4 — Electricity Consumption</div>
+                <div class="indicator-row" data-indicator="cat3">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q2.10</span>
+                        <div><div class="indicator-title">What were the total electricity consumption and cost in the last 3 years (kWh)?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">2.5 — Renewable Energy Adoption</div>
+                <div class="indicator-row" data-indicator="cat3">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q2.11</span>
+                        <div><div class="indicator-title">Has your business generated, purchased, or sold renewable energy (including RECs) in the past 3 years?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">2.6 — Water Consumption</div>
+                <div class="indicator-row" data-indicator="cat3">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q2.13</span>
+                        <div><div class="indicator-title">What was your company's water consumption (in cubic meters) in the last 3 years?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">2.7 — Waste Generation & Recycling</div>
+                <div class="indicator-row" data-indicator="cat3">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q2.14–Q2.16</span>
+                        <div><div class="indicator-title">Waste generated, waste recycled, and percentage of recycled input materials in products/services (last 3 years)</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="slide-nav">
+                    <button class="btn-back" onclick="goToSlide(2)">← Back to Carbon &amp; Climate</button>
+                    <button class="btn-next" onclick="goToSlide(4)">Continue to Env. Stewardship →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 4: Environmental Stewardship -->
+        <section class="slide" data-slide="4">
+            <div class="slide-content">
+                <div class="section-header">
+                    <div class="section-badge" style="background:#0ea5e9">5</div>
+                    <div>
+                        <h2 class="section-title">Environmental Stewardship</h2>
+                        <p class="section-desc">Biodiversity awareness and environmental impact management</p>
+                    </div>
+                    <div class="section-metric">
+                        <span class="metric-num" id="metricNum4">0</span>
+                        <span class="metric-den">/2</span>
+                        <span class="metric-label">COMPLETED</span>
+                    </div>
+                </div>
+
+                <div class="subsection-label">3.1 — Biodiversity Exposure</div>
+                <div class="indicator-row" data-indicator="cat4">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q2.17</span>
+                        <div><div class="indicator-title">Are any of your sites located in or near areas of high biodiversity value (e.g., nature reserves, wetlands, forests, coastal zones, mangroves)?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">3.2 — Environmental Impact Assessment</div>
+                <div class="indicator-row" data-indicator="cat4">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q2.18</span>
+                        <div><div class="indicator-title">Has your company ever conducted an Environmental Impact Assessment (EIA) or any similar environmental review or study to evaluate how its operations affect the environment?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="slide-nav">
+                    <button class="btn-back" onclick="goToSlide(3)">← Back to Energy &amp; Resource</button>
+                    <button class="btn-next" onclick="goToSlide(5)">Continue to Social &amp; Workforce →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5: Social & Workforce Responsibility -->
+        <section class="slide" data-slide="5">
+            <div class="slide-content">
+                <div class="section-header">
+                    <div class="section-badge" style="background:#dc2626">6</div>
+                    <div>
+                        <h2 class="section-title">Social & Workforce Responsibility</h2>
+                        <p class="section-desc">Workforce strategy, diversity, safety, compensation, and community</p>
+                    </div>
+                    <div class="section-metric">
+                        <span class="metric-num" id="metricNum5">0</span>
+                        <span class="metric-den">/10</span>
+                        <span class="metric-label">COMPLETED</span>
+                    </div>
+                </div>
+
+                <div class="subsection-label">4.1 — Workforce Strategy</div>
+                <div class="indicator-row" data-indicator="cat5">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q3.1</span>
+                        <div><div class="indicator-title">Does your company have a formal workforce or human resources strategy (e.g., to attract, retain, or develop employees)?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">4.2 — Workforce Composition & Diversity</div>
+                <div class="indicator-row" data-indicator="cat5">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q3.2</span>
+                        <div><div class="indicator-title">What was the number of employees by contract status, gender, and age group in the last 3 years?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">4.3 — Employee Retention</div>
+                <div class="indicator-row" data-indicator="cat5">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q3.3</span>
+                        <div><div class="indicator-title">What was the employee turnover by gender in the last 3 years?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">4.4 — Fair Compensation</div>
+                <div class="indicator-row" data-indicator="cat5">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q3.4–Q3.5</span>
+                        <div><div class="indicator-title">Average annual salary per employee and review of gender pay differences</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">4.5 — Benefits & Entitlements</div>
+                <div class="indicator-row" data-indicator="cat5">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q3.12, Q3.14</span>
+                        <div><div class="indicator-title">Employee entitlements (leave days) and stock/ownership-based benefits</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">4.6 — Training & Development</div>
+                <div class="indicator-row" data-indicator="cat5">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q3.8</span>
+                        <div><div class="indicator-title">What were the total training hours, total training costs, and number of employees trained for each of the last three years?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">4.7 — Health & Safety</div>
+                <div class="indicator-row" data-indicator="cat5">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q3.9–Q3.10</span>
+                        <div><div class="indicator-title">Formal health and safety policy and occupational health incidents in the last 3 years</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">4.8 — Misconduct & Ethics</div>
+                <div class="indicator-row" data-indicator="cat5">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q3.11</span>
+                        <div><div class="indicator-title">What were the number of misconduct incidents and their corresponding costs at your company in the last 3 years?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">4.9 — Community & Volunteering</div>
+                <div class="indicator-row" data-indicator="cat5">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q3.13</span>
+                        <div><div class="indicator-title">Please provide the following information on employee volunteering to support impact monetisation.</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">4.10 — Stakeholder Satisfaction</div>
+                <div class="indicator-row" data-indicator="cat5">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q3.15</span>
+                        <div><div class="indicator-title">Please indicate if you have conducted satisfaction surveys on your employees or customers.</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="slide-nav">
+                    <button class="btn-back" onclick="goToSlide(4)">← Back to Env. Stewardship</button>
+                    <button class="btn-next" onclick="goToSlide(6)">Continue to Governance →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 6: Governance, Targets & Transparency -->
+        <section class="slide" data-slide="6">
+            <div class="slide-content">
+                <div class="section-header">
+                    <div class="section-badge" style="background:#475569">7</div>
+                    <div>
+                        <h2 class="section-title">Governance, Targets & Transparency</h2>
+                        <p class="section-desc">Board composition, sustainability strategy, reporting, and ethics</p>
+                    </div>
+                    <div class="section-metric">
+                        <span class="metric-num" id="metricNum6">0</span>
+                        <span class="metric-den">/9</span>
+                        <span class="metric-label">COMPLETED</span>
+                    </div>
+                </div>
+
+                <div class="subsection-label">5.1 — Board Composition & Oversight</div>
+                <div class="indicator-row" data-indicator="cat6">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q4.1–Q4.2</span>
+                        <div><div class="indicator-title">Board of Directors information and changes to board composition in the past two years</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">5.2 — Sustainability Personnel</div>
+                <div class="indicator-row" data-indicator="cat6">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q4.4</span>
+                        <div><div class="indicator-title">Does your company have any dedicated sustainability personnel?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">5.3 — Sustainability Strategy</div>
+                <div class="indicator-row" data-indicator="cat6">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q4.5</span>
+                        <div><div class="indicator-title">Does your company have an existing sustainability strategy? If yes, please provide some description and upload documents.</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">5.4 — Sustainability Training & Certifications</div>
+                <div class="indicator-row" data-indicator="cat6">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q4.10</span>
+                        <div><div class="indicator-title">Sustainability-related training and certifications your company or sustainability team/officer has obtained</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">5.5 — Sustainability Reporting & Disclosure</div>
+                <div class="indicator-row" data-indicator="cat6">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q4.11</span>
+                        <div><div class="indicator-title">Does your company have a sustainability report or climate risk disclosure?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">5.6 — ESG Rating</div>
+                <div class="indicator-row" data-indicator="cat6">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q4.13</span>
+                        <div><div class="indicator-title">Does your company currently have or look to get an ESG rating?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">5.7 — Materiality Assessment</div>
+                <div class="indicator-row" data-indicator="cat6">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q4.15</span>
+                        <div><div class="indicator-title">Has your company conducted materiality assessment for your company's business activities on the society and key stakeholders?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">5.8 — Ethical Conduct</div>
+                <div class="indicator-row" data-indicator="cat6">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q4.16</span>
+                        <div><div class="indicator-title">What was the cost your company incurred due to incidents related to unethical behaviour in the last 3 years?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="subsection-label">5.9 — Cybersecurity & Data Privacy</div>
+                <div class="indicator-row" data-indicator="cat6">
+                    <div class="indicator-info">
+                        <span class="q-tag">Q4.17</span>
+                        <div><div class="indicator-title">What was the cost your company incurred due to cyber attacks and privacy breaches in the last 3 years?</div></div>
+                    </div>
+                    <div class="indicator-actions">
+                        <button class="btn-complete" title="Mark complete">✓</button>
+                        <button class="btn-skip" title="Skip">✗</button>
+                    </div>
+                </div>
+
+                <div class="slide-nav">
+                    <button class="btn-back" onclick="goToSlide(5)">← Back to Social &amp; Workforce</button>
+                    <div></div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<!-- Floating Nav -->
+<button class="fab" id="fabBtn" onclick="toggleNav()">☰</button>
+<div class="fab-panel" id="fabPanel">
+    <div class="fab-title">Quick Navigation</div>
+    <div class="fab-item" onclick="goToSlide(0);toggleNav()">Corporate Information</div>
+    <div class="fab-item" onclick="goToSlide(1);toggleNav()">Pre-Screening</div>
+    <div class="fab-item" onclick="goToSlide(2);toggleNav()">Carbon & Climate Performance</div>
+    <div class="fab-item" onclick="goToSlide(3);toggleNav()">Energy & Resource Use</div>
+    <div class="fab-item" onclick="goToSlide(4);toggleNav()">Environmental Stewardship</div>
+    <div class="fab-item" onclick="goToSlide(5);toggleNav()">Social & Workforce Responsibility</div>
+    <div class="fab-item" onclick="goToSlide(6);toggleNav()">Governance, Targets & Transparency</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
