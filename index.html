@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SustainSME — Sustainability Assessment</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+<div class="header-inner">
+<div class="logo"><div class="logo-icon">S</div><span class="logo-text">SustainSME</span></div>
+<div class="status-card">
+<div class="status-left">
+<div class="status-label">EST. TIME</div>
+<div class="status-time" id="timeLeft">~15 min</div>
+</div>
+<div class="status-mid">
+<div class="status-label">STATUS</div>
+<div class="status-numbers"><span id="statusCur">0</span><span class="status-dim" id="statusTot">/48</span></div>
+</div>
+<div class="status-right">
+<div class="status-bar">
+<div class="bar-done" id="barDone"></div>
+<div class="bar-skip" id="barSkip"></div>
+</div>
+<div class="status-legend">
+<span class="leg"><span class="ldot ldot-g"></span>Done</span>
+<span class="leg"><span class="ldot ldot-a"></span>Skipped</span>
+<span class="leg"><span class="ldot ldot-e"></span>Remaining</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+<!-- PILLS NAV -->
+<nav class="pills-bar" id="pillsBar" style="display:none">
+<div class="pills-inner" id="pillsWrap"></div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main-area">
+
+<!-- ==================== PHASE 1: CORPORATE INFO ==================== -->
+<div class="phase" id="phaseCorpInfo">
+<div class="corp-card">
+<div class="corp-header">
+<div class="corp-icon">📋</div>
+<div>
+<h1>Let's get started</h1>
+<p>First, tell us about your company. This takes about 1 minute.</p>
+</div>
+</div>
+<div class="corp-fields">
+<div class="cf">
+<label>Full registered name of your business entity</label>
+<input type="text" id="corpName" placeholder="Enter company name">
+</div>
+<div class="cf">
+<label>Unique Entity Number (UEN)</label>
+<input type="text" id="corpUEN" placeholder="e.g. 201912345A">
+</div>
+<div class="cf">
+<label>Year of establishment</label>
+<select id="corpYear"><option value="">Select year</option></select>
+</div>
+<div class="cf">
+<label>Select your reporting currency</label>
+<select id="corpCurr">
+<option value="">Select currency</option>
+<option>SGD</option><option>USD</option><option>EUR</option><option>GBP</option><option>MYR</option><option>IDR</option><option>THB</option><option>PHP</option><option>VND</option><option>CNY</option><option>JPY</option><option>KRW</option><option>AUD</option><option>INR</option><option>HKD</option>
+</select>
+</div>
+<div class="cf">
+<label>Primary industry sector</label>
+<select id="corpInd">
+<option value="">Select industry</option>
+<option>Manufacturing</option><option>Retail</option><option>F&amp;B</option><option>Logistics</option><option>Professional Services</option><option>Construction</option><option>Agriculture</option><option>Technology/IT</option><option>Healthcare</option><option>Education</option><option>Real Estate</option><option>Financial Services</option><option>Other</option>
+</select>
+</div>
+</div>
+<button class="btn-primary" id="btnToPrescreen">Continue to Pre-Screening →</button>
+</div>
+</div>
+
+<!-- ==================== PHASE 2: TYPEFORM PRE-SCREENING ==================== -->
+<div class="phase" id="phasePrescreen" style="display:none">
+<div class="tf-container">
+<div class="tf-progress">
+<div class="tf-bar" id="tfBar"></div>
+</div>
+<div class="tf-track" id="tfTrack">
+
+<!-- Q1.7 -->
+<div class="tf-slide" data-ps="q17">
+<div class="tf-num">1 of 8</div>
+<h2>Does your company own, lease, or operate any physical facilities?</h2>
+<p class="tf-hint">e.g., factories, offices, warehouses, farms</p>
+<div class="tf-options yn" id="ps-q17">
+<button data-v="Yes" class="tf-opt">
+<span class="tf-key">Y</span> Yes
+</button>
+<button data-v="No" class="tf-opt">
+<span class="tf-key">N</span> No
+</button>
+</div>
+</div>
+
+<!-- Q1.7a (conditional) -->
+<div class="tf-slide" data-ps="q17a" style="display:none">
+<div class="tf-num">1a of 8</div>
+<h2>What type(s) of facilities does your company operate?</h2>
+<p class="tf-hint">Select all that apply</p>
+<div class="tf-options multi" id="ps-q17a">
+<label class="tf-check"><input type="checkbox" value="Office"><span class="tf-key">A</span> Office</label>
+<label class="tf-check"><input type="checkbox" value="Factory or production plant"><span class="tf-key">B</span> Factory or production plant</label>
+<label class="tf-check"><input type="checkbox" value="Warehouse or storage"><span class="tf-key">C</span> Warehouse or storage</label>
+<label class="tf-check"><input type="checkbox" value="Retail or F&B outlet"><span class="tf-key">D</span> Retail or F&amp;B outlet</label>
+<label class="tf-check"><input type="checkbox" value="Farm or agricultural land"><span class="tf-key">E</span> Farm or agricultural land</label>
+<label class="tf-check"><input type="checkbox" value="Other"><span class="tf-key">F</span> Other</label>
+</div>
+<button class="btn-primary tf-next" id="btn-q17a">Continue →</button>
+</div>
+
+<!-- Q1.8 -->
+<div class="tf-slide" data-ps="q18">
+<div class="tf-num">2 of 8</div>
+<h2>What are the main energy sources your company uses?</h2>
+<p class="tf-hint">Select all that apply</p>
+<div class="tf-options multi" id="ps-q18">
+<label class="tf-check"><input type="checkbox" value="Grid electricity"><span class="tf-key">A</span> Grid electricity</label>
+<label class="tf-check"><input type="checkbox" value="Diesel"><span class="tf-key">B</span> Diesel</label>
+<label class="tf-check"><input type="checkbox" value="Petrol"><span class="tf-key">C</span> Petrol</label>
+<label class="tf-check"><input type="checkbox" value="Natural gas (LNG/PNG)"><span class="tf-key">D</span> Natural gas (LNG/PNG)</label>
+<label class="tf-check"><input type="checkbox" value="LPG"><span class="tf-key">E</span> LPG</label>
+<label class="tf-check"><input type="checkbox" value="Solar"><span class="tf-key">F</span> Solar</label>
+<label class="tf-check"><input type="checkbox" value="None of the above"><span class="tf-key">G</span> None of the above</label>
+</div>
+<button class="btn-primary tf-next" id="btn-q18">Continue →</button>
+</div>
+
+<!-- Q1.9 -->
+<div class="tf-slide" data-ps="q19">
+<div class="tf-num">3 of 8</div>
+<h2>Does your company own, lease, or rent any vehicles for business use?</h2>
+<p class="tf-hint">Excluding ride-hail services like Grab or Gojek</p>
+<div class="tf-options yn" id="ps-q19">
+<button data-v="Yes" class="tf-opt"><span class="tf-key">Y</span> Yes</button>
+<button data-v="No" class="tf-opt"><span class="tf-key">N</span> No</button>
+</div>
+</div>
+
+<!-- Q1.9a (conditional) -->
+<div class="tf-slide" data-ps="q19a" style="display:none">
+<div class="tf-num">3a of 8</div>
+<h2>What fuel type(s) do your vehicles use?</h2>
+<p class="tf-hint">Select all that apply</p>
+<div class="tf-options multi" id="ps-q19a">
+<label class="tf-check"><input type="checkbox" value="Petrol"><span class="tf-key">A</span> Petrol</label>
+<label class="tf-check"><input type="checkbox" value="Diesel"><span class="tf-key">B</span> Diesel</label>
+<label class="tf-check"><input type="checkbox" value="Electric"><span class="tf-key">C</span> Electric</label>
+<label class="tf-check"><input type="checkbox" value="Hybrid"><span class="tf-key">D</span> Hybrid</label>
+<label class="tf-check"><input type="checkbox" value="CNG"><span class="tf-key">E</span> CNG</label>
+</div>
+<button class="btn-primary tf-next" id="btn-q19a">Continue →</button>
+</div>
+
+<!-- Q1.9b (conditional) -->
+<div class="tf-slide" data-ps="q19b" style="display:none">
+<div class="tf-num">3b of 8</div>
+<h2>Approximately how many vehicles?</h2>
+<div class="tf-options yn" id="ps-q19b">
+<button data-v="1-5" class="tf-opt">1–5</button>
+<button data-v="6-20" class="tf-opt">6–20</button>
+<button data-v="21-50" class="tf-opt">21–50</button>
+<button data-v="50+" class="tf-opt">50+</button>
+</div>
+</div>
+
+<!-- Q1.10 -->
+<div class="tf-slide" data-ps="q110">
+<div class="tf-num">4 of 8</div>
+<h2>Does your company use any heavy machinery or industrial equipment that consumes fuel or energy?</h2>
+<div class="tf-options yn" id="ps-q110">
+<button data-v="Yes" class="tf-opt"><span class="tf-key">Y</span> Yes</button>
+<button data-v="No" class="tf-opt"><span class="tf-key">N</span> No</button>
+</div>
+</div>
+
+<!-- Q1.13 -->
+<div class="tf-slide" data-ps="q113">
+<div class="tf-num">5 of 8</div>
+<h2>Does your company currently track or measure its carbon emissions?</h2>
+<div class="tf-options yn tri" id="ps-q113">
+<button data-v="Yes, formally" class="tf-opt"><span class="tf-key">A</span> Yes, formally</button>
+<button data-v="Yes, informally" class="tf-opt"><span class="tf-key">B</span> Yes, informally</button>
+<button data-v="No" class="tf-opt"><span class="tf-key">C</span> No</button>
+</div>
+</div>
+
+</div>
+
+<!-- TYPEFORM NAV -->
+<div class="tf-nav">
+<button class="tf-back" id="tfBack">← Back</button>
+<div class="tf-dots" id="tfDots"></div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PHASE 3: ASSESSMENT (horizontal slides) ==================== -->
+<div class="phase" id="phaseAssess" style="display:none">
+<div class="assess-viewport">
+<div class="assess-track" id="assessTrack">
+
+<!-- CAT 1: Carbon & Climate -->
+<div class="a-slide">
+<div class="a-inner">
+<div class="a-head">
+<div class="a-icon" style="background:#16a34a">🌿</div>
+<div class="a-info"><h2>Carbon & Climate Performance</h2><p>Emissions tracking, targets, and reduction plans</p></div>
+<div class="a-stat"><span class="a-num" id="ac0">0</span><span class="a-den" id="at0">/6</span><br><span class="a-lab">COMPLETED</span></div>
+</div>
+<div class="a-body">
+<div class="sub-label">1.1 Carbon Emissions Tracking</div>
+<div class="qrow" data-q="q2.1" data-gate="carbon"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.1 — Does your company track carbon emissions?</div><div class="qpre" id="pp-q2.1"></div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q2.2" data-gate="carbon"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.2 — Carbon emissions data details</div><div class="qpre" id="pp-q2.2"></div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">1.2 Emissions Tracking Maturity</div>
+<div class="qrow" data-q="q2.3" data-gate="carbon-no"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.3 — What are the challenges in tracking carbon emissions?</div><div class="qpre" id="pp-q2.3"></div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">1.3 Net-Zero Target</div>
+<div class="qrow" data-q="q4.6"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.6 — Does your company have a net-zero carbon emissions target?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">1.4 Emissions Reduction Plan</div>
+<div class="qrow" data-q="q4.7"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.7 — Does your company have a carbon emissions reduction plan for Scope 1 and/or Scope 2?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">1.5 Intensity-Based Reduction Target</div>
+<div class="qrow" data-q="q4.9"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.9 — Does your company have an intensity-based emissions reduction target?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+</div>
+<div class="a-nav"><div></div><button class="btn-primary" data-go="1">Continue to Energy & Resource →</button></div>
+</div>
+</div>
+
+<!-- CAT 2: Energy & Resource -->
+<div class="a-slide">
+<div class="a-inner">
+<div class="a-head">
+<div class="a-icon" style="background:#f59e0b">⚡</div>
+<div class="a-info"><h2>Energy & Resource Use</h2><p>Energy consumption, renewables, water, and waste</p></div>
+<div class="a-stat"><span class="a-num" id="ac1">0</span><span class="a-den" id="at1">/13</span><br><span class="a-lab">COMPLETED</span></div>
+</div>
+<div class="a-body">
+<div class="sub-label">2.1 Physical Footprint</div>
+<div class="qrow" data-q="q2.4" data-gate="facilities"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.4 — Does your company own, lease, or operate on physical land or facilities?</div><div class="qpre" id="pp-q2.4"></div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q2.5" data-gate="facilities"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.5 — Facility details</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q2.6" data-gate="facilities"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.6 — Facility operations details</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">2.2 Machinery & Equipment Energy Use</div>
+<div class="qrow" data-q="q2.7" data-gate="machinery"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.7 — Energy used for machinery or equipment by source (last 3 years)?</div><div class="qpre" id="pp-q2.7"></div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">2.3 Vehicle Fleet & Energy</div>
+<div class="qrow" data-q="q2.8" data-gate="vehicles"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.8 — Company vehicles — specify the number</div><div class="qpre" id="pp-q2.8"></div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q2.9" data-gate="vehicles"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.9 — Vehicle energy consumption (last 3 years)?</div><div class="qpre" id="pp-q2.9"></div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">2.4 Electricity Consumption</div>
+<div class="qrow" data-q="q2.10"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.10 — Total electricity consumption and cost (last 3 years, kWh)?</div><div class="qpre" id="pp-q2.10"></div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">2.5 Renewable Energy Adoption</div>
+<div class="qrow" data-q="q2.11"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.11 — Generated, purchased, or sold renewable energy (incl. RECs)?</div><div class="qpre" id="pp-q2.11"></div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q2.12"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.12 — Renewable energy details</div><div class="qpre" id="pp-q2.12"></div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">2.6 Water Consumption</div>
+<div class="qrow" data-q="q2.13"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.13 — Water consumption in cubic meters (last 3 years)?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">2.7 Waste Generation & Recycling</div>
+<div class="qrow" data-q="q2.14"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.14 — Waste generated in tonnes (last 3 years)?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q2.15"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.15 — Waste recycled in tonnes (last 3 years)?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q2.16"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.16 — Percentage of recycled input materials in products/services?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+</div>
+<div class="a-nav"><button class="btn-back" data-go="0">← Back</button><button class="btn-primary" data-go="2">Continue to Env. Stewardship →</button></div>
+</div>
+</div>
+
+<!-- CAT 3: Environmental Stewardship -->
+<div class="a-slide">
+<div class="a-inner">
+<div class="a-head">
+<div class="a-icon" style="background:#0ea5e9">🌍</div>
+<div class="a-info"><h2>Environmental Stewardship</h2><p>Biodiversity impact and environmental assessments</p></div>
+<div class="a-stat"><span class="a-num" id="ac2">0</span><span class="a-den" id="at2">/2</span><br><span class="a-lab">COMPLETED</span></div>
+</div>
+<div class="a-body">
+<div class="sub-label">3.1 Biodiversity Exposure</div>
+<div class="qrow" data-q="q2.17" data-gate="facilities"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.17 — Sites in or near areas of high biodiversity value?</div><div class="qpre" id="pp-q2.17"></div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">3.2 Environmental Impact Assessment</div>
+<div class="qrow" data-q="q2.18" data-gate="facilities"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q2.18 — Has your company conducted an EIA or similar review?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+</div>
+<div class="a-nav"><button class="btn-back" data-go="1">← Back</button><button class="btn-primary" data-go="3">Continue to Social & Workforce →</button></div>
+</div>
+</div>
+
+<!-- CAT 4: Social & Workforce -->
+<div class="a-slide">
+<div class="a-inner">
+<div class="a-head">
+<div class="a-icon" style="background:#a855f7">👥</div>
+<div class="a-info"><h2>Social & Workforce Responsibility</h2><p>Workforce strategy, diversity, safety, and community</p></div>
+<div class="a-stat"><span class="a-num" id="ac3">0</span><span class="a-den" id="at3">/15</span><br><span class="a-lab">COMPLETED</span></div>
+</div>
+<div class="a-body">
+<div class="sub-label">4.1 Workforce Strategy</div>
+<div class="qrow" data-q="q3.1"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.1 — Formal workforce or HR strategy?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">4.2 Workforce Composition & Diversity</div>
+<div class="qrow" data-q="q3.2"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.2 — Employees by contract status, gender, age group (last 3 years)?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">4.3 Employee Retention</div>
+<div class="qrow" data-q="q3.3"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.3 — Employee turnover by gender (last 3 years)?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">4.4 Fair Compensation</div>
+<div class="qrow" data-q="q3.4"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.4 — Approximate average annual salary per employee?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q3.5"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.5 — Review of pay differences between male and female employees?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">4.5 Benefits & Entitlements</div>
+<div class="qrow" data-q="q3.6"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.6 — Benefits details</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q3.7"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.7 — Additional benefits details</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q3.12"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.12 — Days of entitlements provided per year?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q3.14"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.14 — Stock or ownership-based benefits offered?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">4.6 Training & Development</div>
+<div class="qrow" data-q="q3.8"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.8 — Training hours, costs, and employees trained (last 3 years)?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">4.7 Health & Safety</div>
+<div class="qrow" data-q="q3.9"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.9 — Formal health and safety policy?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q3.10"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.10 — Occupational health incidents (last 3 years)?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">4.8 Misconduct & Ethics</div>
+<div class="qrow" data-q="q3.11"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.11 — Misconduct incidents and costs (last 3 years)?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">4.9 Community & Volunteering</div>
+<div class="qrow" data-q="q3.13"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.13 — Employee volunteering information</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">4.10 Stakeholder Satisfaction</div>
+<div class="qrow" data-q="q3.15"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q3.15 — Satisfaction surveys on employees or customers?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+</div>
+<div class="a-nav"><button class="btn-back" data-go="2">← Back</button><button class="btn-primary" data-go="4">Continue to Governance →</button></div>
+</div>
+</div>
+
+<!-- CAT 5: Governance -->
+<div class="a-slide">
+<div class="a-inner">
+<div class="a-head">
+<div class="a-icon" style="background:#64748b">🏛️</div>
+<div class="a-info"><h2>Governance, Targets & Transparency</h2><p>Board oversight, sustainability strategy, reporting, ethics</p></div>
+<div class="a-stat"><span class="a-num" id="ac4">0</span><span class="a-den" id="at4">/12</span><br><span class="a-lab">COMPLETED</span></div>
+</div>
+<div class="a-body">
+<div class="sub-label">5.1 Board Composition & Oversight</div>
+<div class="qrow" data-q="q4.1"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.1 — Board of Directors information</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q4.2"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.2 — Board composition changes in past two years?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q4.3"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.3 — Board governance details</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">5.2 Sustainability Personnel</div>
+<div class="qrow" data-q="q4.4"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.4 — Dedicated sustainability personnel?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">5.3 Sustainability Strategy</div>
+<div class="qrow" data-q="q4.5"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.5 — Existing sustainability strategy?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">5.4 Sustainability Training</div>
+<div class="qrow" data-q="q4.10"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.10 — Sustainability training and certifications obtained</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">5.5 Sustainability Reporting</div>
+<div class="qrow" data-q="q4.11"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.11 — Sustainability report or climate risk disclosure?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q4.12"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.12 — Disclosure details</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">5.6 ESG Rating</div>
+<div class="qrow" data-q="q4.13"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.13 — Current or planned ESG rating?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="qrow" data-q="q4.14"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.14 — ESG rating details</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">5.7 Materiality Assessment</div>
+<div class="qrow" data-q="q4.15"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.15 — Materiality assessment conducted?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">5.8 Ethical Conduct</div>
+<div class="qrow" data-q="q4.16"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.16 — Cost due to unethical behaviour incidents (last 3 years)?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+<div class="sub-label">5.9 Cybersecurity & Data Privacy</div>
+<div class="qrow" data-q="q4.17"><div class="qcirc"><div class="qdot"></div></div><div class="qtext"><div class="qtitle">Q4.17 — Cost due to cyber attacks and privacy breaches (last 3 years)?</div></div><div class="qacts"><button class="qa qg" data-a="c">✓</button><button class="qa qy" data-a="s">✗</button><button class="qa qr" data-a="r">↺</button></div></div>
+</div>
+<div class="a-nav"><button class="btn-back" data-go="3">← Back</button><button class="btn-primary btn-finish" id="btnFinish">Complete Assessment ✓</button></div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
